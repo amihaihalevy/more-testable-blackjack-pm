@@ -33,7 +33,6 @@ public class HandValueAceTest {
 
   }
 
-
   private Hand createHand(String... ranks) {
     Hand hand = new Hand();
     for (String rank : ranks) {

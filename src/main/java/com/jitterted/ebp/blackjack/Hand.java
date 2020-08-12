@@ -64,4 +64,12 @@ public class Hand {
   boolean busted() {
     return value() > 21;
   }
+
+  boolean beats(Hand hand) {
+    return hand.value() < value();
+  }
+
+  boolean tiesWith(Hand hand) {
+    return hand.value() == value();
+  }
 }
