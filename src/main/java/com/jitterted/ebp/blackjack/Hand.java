@@ -21,14 +21,14 @@ public class Hand {
     cards.add(card);
   }
 
-  public int handValueOf() {
+  public int value() {
     int handValue = sumOfCardRanks();
 
     // does the hand contain at least 1 Ace?
     boolean hasAce = containsAce();
 
     // if the total hand value <= 11, then count the Ace as 11 by adding 10
-    if (hasAce && handValue < 11) {
+    if (hasAce && handValue <= 11) {
       handValue += 10;
     }
 
@@ -62,6 +62,6 @@ public class Hand {
   }
 
   boolean busted() {
-    return handValueOf() > 21;
+    return value() > 21;
   }
 }
