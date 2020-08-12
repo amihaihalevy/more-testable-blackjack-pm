@@ -2,10 +2,7 @@ package com.jitterted.ebp.blackjack;
 
 import org.fusesource.jansi.Ansi;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -13,8 +10,8 @@ public class Game {
 
   private final Deck deck;
 
-  private final List<Card> dealerHand = new ArrayList<>();
-  private final List<Card> playerHand = new ArrayList<>();
+  private final Hand dealerHand = new Hand();
+  private final Hand playerHand = new Hand();
 
   public static void main(String[] args) {
     Game game = new Game();
@@ -49,7 +46,7 @@ public class Game {
     dealCardTo(dealerHand);
   }
 
-  private void dealCardTo(List<Card> hand) {
+  private void dealCardTo(Hand hand) {
     hand.add(deck.draw());
   }
 
@@ -70,11 +67,11 @@ public class Game {
   private void displayWinner(boolean playerBusted) {
     if (playerBusted) {
       System.out.println("You Busted, so you lose.  💸");
-    } else if (handValueOf(dealerHand) > 21) {
+    } else if (dealerHand.handValueOf() > 21) {
       System.out.println("Dealer went BUST, Player wins! Yay for you!! 💵");
-    } else if (handValueOf(dealerHand) < handValueOf(playerHand)) {
+    } else if (dealerHand.handValueOf() < playerHand.handValueOf()) {
       System.out.println("You beat the Dealer! 💵");
-    } else if (handValueOf(dealerHand) == handValueOf(playerHand)) {
+    } else if (dealerHand.handValueOf() == playerHand.handValueOf()) {
       System.out.println("Push: The house wins, you Lose. 💸");
     } else {
       System.out.println("You lost to the Dealer. 💸");
@@ -82,7 +79,7 @@ public class Game {
   }
 
   private void dealerTurn() {
-    while (handValueOf(dealerHand) <= 16) {
+    while (dealerHand.handValueOf() <= 16) {
       dealCardTo(dealerHand);
     }
   }
@@ -97,7 +94,7 @@ public class Game {
       }
       if (playerChoice.startsWith("h")) {
         dealCardTo(playerHand);
-        if (handValueOf(playerHand) > 21) {
+        if (playerHand.handValueOf() > 21) {
           playerBusted = true;
         }
       } else {
@@ -105,33 +102,6 @@ public class Game {
       }
     }
     return playerBusted;
-  }
-
-  public int handValueOf(List<Card> hand) {
-    int handValue = sumOfCardRanks(hand);
-
-    // does the hand contain at least 1 Ace?
-    boolean hasAce = containsAce(hand);
-
-    // if the total hand value <= 11, then count the Ace as 11 by adding 10
-    if (hasAce && handValue < 11) {
-      handValue += 10;
-    }
-
-    return handValue;
-  }
-
-  private boolean containsAce(List<Card> hand) {
-    return hand
-        .stream()
-        .anyMatch(card -> card.rankValue() == 1);
-  }
-
-  private int sumOfCardRanks(List<Card> hand) {
-    return hand
-        .stream()
-        .mapToInt(Card::rankValue)
-        .sum();
   }
 
   private String inputFromPlayer() {
@@ -148,8 +118,8 @@ public class Game {
   private void displayFinalGameState() {
     System.out.print(ansi().eraseScreen().cursor(1, 1));
     System.out.println("Dealer has: ");
-    displayHand(dealerHand);
-    System.out.println(" (" + handValueOf(dealerHand) + ")");
+    dealerHand.displayHand();
+    System.out.println(" (" + dealerHand.handValueOf() + ")");
 
     displayPlayerHand();
   }
@@ -157,7 +127,7 @@ public class Game {
   private void displayDealerHand() {
     System.out.print(ansi().eraseScreen().cursor(1, 1));
     System.out.println("Dealer has: ");
-    System.out.println(dealerHand.get(0).display()); // first card is Face Up
+    System.out.println(dealerHand.displayTopCard()); // first card is Face Up
 
     // second card is the hole card, which is hidden
     displayBackOfCard();
@@ -166,8 +136,8 @@ public class Game {
   private void displayPlayerHand() {
     System.out.println();
     System.out.println("Player has: ");
-    displayHand(playerHand);
-    System.out.println(" (" + handValueOf(playerHand) + ")");
+    playerHand.displayHand();
+    System.out.println(" (" + playerHand.handValueOf() + ")");
   }
 
   private void displayBackOfCard() {
@@ -184,10 +154,4 @@ public class Game {
             .a("└─────────┘"));
   }
 
-  private void displayHand(List<Card> hand) {
-    System.out.println(hand.stream()
-                           .map(Card::display)
-                           .collect(Collectors.joining(
-                               ansi().cursorUp(6).cursorRight(1).toString())));
-  }
 }
