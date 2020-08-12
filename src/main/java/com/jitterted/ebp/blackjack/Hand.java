@@ -60,4 +60,8 @@ public class Hand {
   String displayTopCard() {
     return cards.get(0).display();
   }
+
+  boolean busted() {
+    return handValueOf() > 21;
+  }
 }

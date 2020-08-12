@@ -67,7 +67,7 @@ public class Game {
   private void displayWinner(boolean playerBusted) {
     if (playerBusted) {
       System.out.println("You Busted, so you lose.  💸");
-    } else if (dealerHand.handValueOf() > 21) {
+    } else if (dealerHand.busted()) {
       System.out.println("Dealer went BUST, Player wins! Yay for you!! 💵");
     } else if (dealerHand.handValueOf() < playerHand.handValueOf()) {
       System.out.println("You beat the Dealer! 💵");
@@ -94,9 +94,7 @@ public class Game {
       }
       if (playerChoice.startsWith("h")) {
         dealCardTo(playerHand);
-        if (playerHand.handValueOf() > 21) {
-          playerBusted = true;
-        }
+        playerBusted = playerHand.busted();
       } else {
         System.out.println("You need to [H]it or [S]tand");
       }

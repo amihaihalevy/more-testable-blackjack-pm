@@ -11,7 +11,6 @@ public class Rank {
     this.rank = rank;
   }
 
-
   public static Rank from(String rank) {
     return new Rank(rank);
   }
