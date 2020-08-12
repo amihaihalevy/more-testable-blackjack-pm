@@ -1,6 +1,5 @@
-package com.jitterted.ebp.blackjack.domain;
+package com.jitterted.ebp.blackjack;
 
-import com.jitterted.ebp.blackjack.Suit;
 import org.fusesource.jansi.Ansi;
 import org.junit.jupiter.api.Test;
 

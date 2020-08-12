@@ -1,9 +1,5 @@
-package com.jitterted.ebp.blackjack.domain;
+package com.jitterted.ebp.blackjack;
 
-import com.jitterted.ebp.blackjack.Card;
-import com.jitterted.ebp.blackjack.Game;
-import com.jitterted.ebp.blackjack.Rank;
-import com.jitterted.ebp.blackjack.Suit;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
