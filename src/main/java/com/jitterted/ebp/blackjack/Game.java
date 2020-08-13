@@ -12,6 +12,8 @@ public class Game {
 
   private final Hand dealerHand = new Hand();
   private final Hand playerHand = new Hand();
+  private int playerBalance;
+  private int playerBet;
 
   public static void main(String[] args) {
     Game game = new Game();
@@ -33,6 +35,7 @@ public class Game {
 
   public Game() {
     deck = new Deck();
+    playerBalance = 100;
   }
 
   public void initialDeal() {
@@ -151,4 +154,16 @@ public class Game {
             .a("└─────────┘"));
   }
 
+  public int playerBalance() {
+    return playerBalance;
+  }
+
+  public void playerBets(int betAmount) {
+    playerBet = betAmount;
+    playerBalance -= betAmount;
+  }
+
+  public void playerWins() {
+    playerBalance += playerBet * 2;
+  }
 }
