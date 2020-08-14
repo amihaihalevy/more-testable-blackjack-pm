@@ -34,4 +34,37 @@ public class GameBettingTest {
     assertThat(game.playerBalance())
         .isEqualTo(100 - 45 + (45 * 2));
   }
+
+  @Test
+  public void playersBets45AndLosesPlayerHas55() throws Exception {
+    Game game = new Game();
+    game.playerBets(45);
+
+    game.playerLoses();
+
+    assertThat(game.playerBalance())
+        .isEqualTo(100 - 45);
+  }
+
+  @Test
+  public void playersBets80AndGetBlackjackPlayerHas220() throws Exception {
+    Game game = new Game();
+    game.playerBets(80);
+
+    game.playerWinsBlackjack();
+
+    assertThat(game.playerBalance())
+        .isEqualTo(100 - 80 + (int) (80 * 2.5));
+  }
+
+  @Test
+  public void playerBets45TiesAndBetIsReturned() throws Exception {
+    Game game = new Game();
+    game.playerBets(45);
+
+    game.playerTies();
+
+    assertThat(game.playerBalance())
+        .isEqualTo(100);
+  }
 }
